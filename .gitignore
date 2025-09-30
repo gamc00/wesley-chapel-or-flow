@@ -21,3 +21,7 @@ pids
 *.pid
 *.seed
 *.pid.lock
+
+# OS
+.DS_Store
+Thumbs.db
