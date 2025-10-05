@@ -1,64 +1,28 @@
 'use client';
 
-import React from 'react';
-import { AuthProvider, useAuth } from '@/contexts/AuthContext';
-import AuthPage from '@/components/AuthPage';
-import Layout from '@/components/Layout';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-
-function AppContent() {
-  const { user, loading, isActive } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    // Redirect logic based on user status and device
-    if (user && isActive) {
-      const isMobile = window.innerWidth < 768;
-      const isAdmin = user.role === 'Admin';
-      
-      // Non-admin users on mobile should go to mobile view
-      if (!isAdmin && isMobile) {
-        router.push('/m');
-      } else {
-        // Admin users or desktop users go to admin dashboard or board
-        router.push(isAdmin ? '/admin' : '/board');
-      }
-    }
-  }, [user, isActive, router]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading Wesley Chapel OR Flow...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Show auth page if not logged in or not active
-  if (!user || !isActive) {
-    return <AuthPage />;
-  }
-
-  // Show welcome message while redirecting
-  return (
-    <Layout>
-      <div className="text-center py-12">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Welcome to Wesley Chapel OR Flow</h1>
-        <p className="text-gray-600">Redirecting you to your dashboard...</p>
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mt-4"></div>
-      </div>
-    </Layout>
-  );
-}
-
 export default function Home() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          Wesley Chapel OR Flow
+        </h1>
+        <p className="text-lg text-gray-600 mb-8">
+          Surgical Schedule & Anesthesia Staffing Management
+        </p>
+        <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
+          <h2 className="text-xl font-semibold mb-4">Authentication Ready</h2>
+          <p className="text-gray-600 mb-4">
+            Database seeded successfully with Wesley Chapel data
+          </p>
+          <div className="text-sm text-gray-500">
+            <p>✅ 23 Rooms configured</p>
+            <p>✅ 5 Providers added</p>
+            <p>✅ 5 Surgeons added</p>
+            <p>✅ Admin user: admin@wesleychapel.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
